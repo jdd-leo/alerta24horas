@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: alerta24horas-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: alerta
+      POSTGRES_PASSWORD: alerta
+      POSTGRES_DB: alerta24horas
+    ports:
+      - "5434:5432"
+    volumes:
+      - alerta_pgdata:/var/lib/postgresql/data
+
+volumes:
+  alerta_pgdata:

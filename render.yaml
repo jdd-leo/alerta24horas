@@ -1,0 +1,32 @@
+services:
+  - type: web
+    name: alerta24horas-api
+    runtime: node
+    plan: free
+    region: oregon
+    rootDir: backend
+    buildCommand: npm install && npx prisma generate && npx prisma migrate deploy && npm run build
+    startCommand: npm run start:prod
+    healthCheckPath: /api/floods
+    envVars:
+      # Gerado automaticamente pelo Render
+      - key: JWT_SECRET
+        generateValue: true
+
+      # Login de desenvolvimento (sem Google). MVP apenas — desligar antes de produção real.
+      - key: DEV_AUTH
+        value: "true"
+
+      # Preencher no painel do Render (Environment):
+      # connection string do Neon (use a com -pooler)
+      - key: DATABASE_URL
+        sync: false
+      # URL pública desta API, ex: https://alerta24horas-api.onrender.com
+      - key: PUBLIC_BASE_URL
+        sync: false
+      # domínio do front na Vercel, ex: https://alerta24horas.vercel.app
+      - key: CORS_ORIGIN
+        sync: false
+      # Google OAuth Client ID (web). Vazio = só login de desenvolvimento.
+      - key: GOOGLE_CLIENT_ID
+        sync: false
